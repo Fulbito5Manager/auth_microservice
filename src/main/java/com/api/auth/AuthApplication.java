@@ -8,11 +8,13 @@ import com.api.auth.persistence.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
+@ComponentScan({"com.api.auth.*"})
 public class AuthApplication {
 
 	public static void main(String[] args) {
@@ -65,7 +67,7 @@ public class AuthApplication {
 
 			/* Create USERS */
 			UserEntity userShamal = UserEntity.builder()
-					.Username("Shamal")
+					.username("Shamal")
 					//meCagoEnDiooos
 					.password("$2a$10$QEE41un2vzF0wbw38tN/JOsb3ukm7SyNStHwE1SgK2X4UB/RJdcGS")
 					.isEnabled(true)
@@ -76,7 +78,7 @@ public class AuthApplication {
 					.build();
 
 			UserEntity userLean = UserEntity.builder()
-					.Username("Lean")
+					.username("Lean")
 					//porPajero
 					.password("$2a$10$BcRGXuoPLcs7xkvhzVBvhewNsyB8TiJqqjqcjeNX8rodeVeVa5K/y")
 					.isEnabled(true)
@@ -87,7 +89,7 @@ public class AuthApplication {
 					.build();
 
 			UserEntity userJoaquin = UserEntity.builder()
-					.Username("Joaquin")
+					.username("Joaquin")
 					//patitasDeCachorro
 					.password("$2a$10$C7M/ie85WlrZMXIV8QC9sOz013WcMaILleaxIWAhVjkfNhcyYs9Hm")
 					.isEnabled(true)
@@ -98,7 +100,7 @@ public class AuthApplication {
 					.build();
 
 			UserEntity userAndi = UserEntity.builder()
-					.Username("Andi")
+					.username("Andi")
 					//ensartadoComoRanaMacho
 					.password("$2a$10$oCb6RX01a/Ei//4UsdG9gO4MrAXjt4NeBOSJpkiHIp2rdBmS5aAES")
 					.isEnabled(true)

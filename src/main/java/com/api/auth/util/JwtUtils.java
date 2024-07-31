@@ -6,6 +6,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,11 +18,14 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Component
 public class JwtUtils {
     @Value("${security.jwt.key.private}")
     private String privateKey;
-    @Value("${AUTHOJWT-BACKEND}")
+    @Value("${security.jwt.user.generator}")
     private String userGenerator;
 
     public String createToken(Authentication authentication){
@@ -60,7 +65,7 @@ public class JwtUtils {
     }
 
     public String extractUsername (DecodedJWT decodedJWT){
-        return decodedJWT.getSubject().toString();
+        return decodedJWT.getSubject();
     }
 
     public Claim getSpecificClaim(DecodedJWT decodedJWT, String claimName){
