@@ -10,7 +10,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,26 +27,26 @@ public class SecurityConfig  {
     @Autowired
     private JwtUtils jwtUtils;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(http -> {
-                    //Configurar los endpoints publicos:
-                    http.requestMatchers(HttpMethod.POST,"/auth/**").permitAll();
-                    //Configurar los endpoints privados:
-                    http.requestMatchers(HttpMethod.POST, "/method/post").hasAnyRole("ADMIN", "DEVELOPER");
-                    http.requestMatchers(HttpMethod.PATCH, "/method/patch").hasAuthority("REFACTOR");
-                    http.requestMatchers(HttpMethod.GET, "/method/get").hasAuthority("READ");
-                    //Configurar el resto de endpoints - NO ESPECIFICADOS:
-                    http.anyRequest().denyAll();
+                .httpBasic(http -> http.disable())  // Deshabilitar httpBasic si no lo necesitas
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> {
+                    // Configurar los endpoints públicos:
+                    auth.requestMatchers("/api/auth/log-in", "/api/auth/sign-up").permitAll();
+                    // Configurar los endpoints privados:
+                    auth.requestMatchers(HttpMethod.GET, "/api/auth/get").hasAuthority("READ");
+                    // O si estás usando roles:
+                    // auth.requestMatchers(HttpMethod.GET, "/api/auth/get").hasRole("DEVELOPER");
+                    // Configurar el resto de endpoints - NO ESPECIFICADOS:
+                    auth.anyRequest().denyAll();
                 })
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
                 .build();
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();

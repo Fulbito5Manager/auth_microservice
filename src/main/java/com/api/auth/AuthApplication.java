@@ -8,7 +8,9 @@ import com.api.auth.persistence.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Set;
@@ -21,7 +23,8 @@ public class AuthApplication {
 		SpringApplication.run(AuthApplication.class, args);
 	}
 
-	CommandLineRunner init(UserRepository userRepository){
+	CommandLineRunner init(UserRepository userRepository,
+						   PasswordEncoder passwordEncoder){
 		return args -> {
 			/*create permissions*/
 			PermissionEntity createPermission = PermissionEntity.builder()
@@ -80,13 +83,16 @@ public class AuthApplication {
 			UserEntity userLean = UserEntity.builder()
 					.username("Lean")
 					//porPajero
-					.password("$2a$10$BcRGXuoPLcs7xkvhzVBvhewNsyB8TiJqqjqcjeNX8rodeVeVa5K/y")
+					.password("1234")
 					.isEnabled(true)
 					.accountNoExpired(true)
 					.accountNoLocked(true)
 					.credentialNoExpired(true)
 					.roles(Set.of(roleDeveloper))
 					.build();
+
+			String encodedPassword = passwordEncoder.encode(userLean.getPassword());
+			userLean.setPassword(encodedPassword);
 
 			UserEntity userJoaquin = UserEntity.builder()
 					.username("Joaquin")

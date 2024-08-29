@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@PreAuthorize("denyAll()")
 public class AuthController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
