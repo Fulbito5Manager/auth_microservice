@@ -34,7 +34,11 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getServletPath();
-        if ("/api/auth/log-in".equals(path) || "/api/auth/sign-up".equals(path)) {
+        if (
+            "/api/auth/log-in".equals(path) ||
+            "/api/auth/sign-up".equals(path) ||
+            "/.well-known/jwks.json".equals(path)
+        ) {
             filterChain.doFilter(request, response);
             return;
         }
