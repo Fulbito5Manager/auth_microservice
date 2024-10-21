@@ -35,7 +35,7 @@ public class SecurityConfig  {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
                     // Configurar los endpoints públicos:
-                    auth.requestMatchers("/api/auth/log-in", "/api/auth/sign-up").permitAll();
+                    auth.requestMatchers("/api/auth/log-in", "/api/auth/sign-up", "/.well-known/jwks.json").permitAll();
                     // Configurar los endpoints privados:
                     auth.requestMatchers(HttpMethod.GET, "/api/auth/get").hasAuthority("READ");
                     // O si estás usando roles:

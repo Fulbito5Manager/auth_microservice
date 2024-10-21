@@ -23,6 +23,7 @@ public class AuthApplication {
 		SpringApplication.run(AuthApplication.class, args);
 	}
 
+	//TODO: DELETE!
 	CommandLineRunner init(UserRepository userRepository,
 						   PasswordEncoder passwordEncoder){
 		return args -> {

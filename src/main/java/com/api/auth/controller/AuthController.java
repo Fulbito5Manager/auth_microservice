@@ -29,6 +29,6 @@ public class AuthController {
     @GetMapping("/get")
     @PreAuthorize("hasAuthority('READ')")
     public String getAuth(){
-        return "auth";
+        return "Hello World!";
     }
 }
